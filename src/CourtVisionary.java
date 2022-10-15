@@ -73,8 +73,6 @@ public class CourtVisionary {
 
          response = client.newCall(request).execute();
          rBody = response.body().string(); //Because according to documentation you can only use Response.body().string() once*/
-         
-         		+ "";*/
         
          String tempStr = rBody.substring(rBody.indexOf("results")+10, rBody.indexOf("filters")-3).trim();
          totalPlayers = Integer.parseInt(tempStr);
@@ -127,6 +125,8 @@ public class CourtVisionary {
         totalGames = Integer.parseInt(rBody.substring(rBody.indexOf("\"results\":")+10, rBody.indexOf(",\"filters\"")));
         String[] gamesRaw = rBody.substring(rBody.lastIndexOf(":[{")).split("}}}");
         populateGames(gamesRaw,seasonGames,totalGames, seasonYr);
+
+
     	SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 				window.GUI.setVisible(true);
