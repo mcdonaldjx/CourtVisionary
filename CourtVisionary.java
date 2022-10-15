@@ -31,7 +31,7 @@ public class CourtVisionary {
 		int totalGames = 0;
 		String hostURL = "https://api-nba-v1.p.rapidapi.com/";
         String host = "api-nba-v1.p.rapidapi.com";
-        String rAPIKey ="e4e01a94dbmsh4d44bc49f9c1d21p129893jsnfa4be8123e01"; //INSERT API KEY FROM RAPIDAPI IN THESE QUOTES!
+        String rAPIKey =""; //INSERT API KEY FROM RAPIDAPI IN THESE QUOTES!
         int totalTeams = 0;
         int totalPlayers = 0;
        Request request;
