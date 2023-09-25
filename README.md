@@ -114,16 +114,6 @@ If you have a suggestion that would make this program better, fork the repo and 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- CONTACT -->
-## Contact
-
-Jared McDonald - mcdonaldj621@gmail.com
-
-Project Link: [https://github.com/mcdonaldjx/CourtVisionary](https://github.com/mcdonaldjx/CourtVisionary)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/mcdonaldjx/CourtVisionary.svg?style=for-the-badge
