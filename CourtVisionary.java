@@ -30,98 +30,98 @@ public class CourtVisionary {
 		seasonGames = new LinkedList<Game>();
 		int totalGames = 0;
 		String hostURL = "https://api-nba-v1.p.rapidapi.com/";
-        String host = "api-nba-v1.p.rapidapi.com";
-        String rAPIKey =""; //INSERT API KEY FROM RAPIDAPI IN THESE QUOTES!
-        int totalTeams = 0;
-        int totalPlayers = 0;
-       Request request;
-       Response response;
-        String rBody = new String();
-        OkHttpClient client = new OkHttpClient();     
-       //Creating teams first
-        request = new Request.Builder()
-        	.url("https://api-nba-v1.p.rapidapi.com/teams/league/standard")
-        	.get()
-        	.addHeader("x-rapidapi-key", rAPIKey)
-        	.addHeader("x-rapidapi-host", host)
-        	.build();
-
-        response = client.newCall(request).execute();
-        rBody = response.body().string();
-
-        totalTeams = Integer.parseInt(rBody.substring(rBody.indexOf("results")+9,rBody.indexOf("filters")-2));
-        String[] teamsRaw = (rBody.substring(rBody.indexOf("teams\":")+8)).split("\"}");
-        populateTeams(teamsRaw,teams,totalTeams);
-        
-      //Getting all the players in the League
-        
-         request = new Request.Builder()
-         	.url("https://api-nba-v1.p.rapidapi.com/players/league/standard")
-         	.get()
-        	.addHeader("x-rapidapi-key", rAPIKey)
-        	.addHeader("x-rapidapi-host", host)
-         	.build();
-
-         response = client.newCall(request).execute();
-         rBody = response.body().string(); //Because according to documentation you can only use Response.body().string() once*/
-        
-         String tempStr = rBody.substring(rBody.indexOf("results")+10, rBody.indexOf("filters")-3).trim();
-         totalPlayers = Integer.parseInt(tempStr);
-         String[] playersRaw = rBody.substring(rBody.indexOf("[{")+2).split("}}},");
-         populatePlayers(playersRaw, totalPlayers);
-        
-        //Get Team records for current year via GET standings/standard/currentYear (-1 year if current month is before July)
-        request = new Request.Builder()
-        		.url(hostURL+"standings/standard/"+seasonYr)
-        		.get()
-        		.addHeader("x-rapidapi-key", rAPIKey)
-            	.addHeader("x-rapidapi-host", host)
-            	.build();
-        response = client.newCall(request).execute();
-        rBody = response.body().string();
-        totalTeams = teams.size();
-        String[] standingsRaw = rBody.substring(rBody.indexOf("[{")).split("league");
-        String standing = new String();
-        int tempID = 0;
-        for(int i = 0; i < standingsRaw.length; i++) {
-        	standing = standingsRaw[i];
-        	if(standing.indexOf("teamId") > -1) {
-        		tempID = Integer.parseInt(standing.substring(standing.indexOf("teamId")+9, standing.indexOf("\",\"win")));
-        		Team temp = getTeam(teams,tempID);
-        		if(temp != null) {
-	        		temp.populateStats(standing.substring(standing.indexOf("\"win\"")));
-        		}
-        	}
-        }
-        for(Team t : teams)
-        Collections.sort(t.roster,new Comparator<Player>(){
-            public int compare(Player p1,Player p2){
-            	int result = p1.getLastName().compareToIgnoreCase(p2.getLastName());
-        		if(result != 0) {
-        			return 0;
-        		}
-        		return p1.getFirstName().compareToIgnoreCase(p2.getFirstName());
-            }});
-        
-        //Getting all the games of the season
-       
-        request = new Request.Builder()
-        		.url(hostURL+"games/league/standard/"+seasonYr)
-        		.get()
-        		.addHeader("x-rapidapi-key", rAPIKey)
-            	.addHeader("x-rapidapi-host", host)
-            	.build();
-        response = client.newCall(request).execute();
-        rBody = response.body().string();
-        totalGames = Integer.parseInt(rBody.substring(rBody.indexOf("\"results\":")+10, rBody.indexOf(",\"filters\"")));
-        String[] gamesRaw = rBody.substring(rBody.lastIndexOf(":[{")).split("}}}");
-        populateGames(gamesRaw,seasonGames,totalGames, seasonYr);
-    	SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-				window.GUI.setVisible(true);
-        
-            }
-        });
+	        String host = "api-nba-v1.p.rapidapi.com";
+	        String rAPIKey =""; //INSERT API KEY FROM RAPIDAPI IN THESE QUOTES!
+	        int totalTeams = 0;
+	        int totalPlayers = 0;
+	       	Request request;
+	       	Response response;
+	        String rBody = new String();
+	        OkHttpClient client = new OkHttpClient();     
+	       //Creating teams first
+	        request = new Request.Builder()
+	        	.url("https://api-nba-v1.p.rapidapi.com/teams/league/standard")
+	        	.get()
+	        	.addHeader("x-rapidapi-key", rAPIKey)
+	        	.addHeader("x-rapidapi-host", host)
+	        	.build();
+	
+	        response = client.newCall(request).execute();
+	        rBody = response.body().string();
+	
+	        totalTeams = Integer.parseInt(rBody.substring(rBody.indexOf("results")+9,rBody.indexOf("filters")-2));
+	        String[] teamsRaw = (rBody.substring(rBody.indexOf("teams\":")+8)).split("\"}");
+	        populateTeams(teamsRaw,teams,totalTeams);
+	        
+	      //Getting all the players in the League
+	        
+	         request = new Request.Builder()
+	         	.url("https://api-nba-v1.p.rapidapi.com/players/league/standard")
+	         	.get()
+	        	.addHeader("x-rapidapi-key", rAPIKey)
+	        	.addHeader("x-rapidapi-host", host)
+	         	.build();
+	
+	         response = client.newCall(request).execute();
+	         rBody = response.body().string(); //Because according to documentation you can only use Response.body().string() once*/
+	        
+	         String tempStr = rBody.substring(rBody.indexOf("results")+10, rBody.indexOf("filters")-3).trim();
+	         totalPlayers = Integer.parseInt(tempStr);
+	         String[] playersRaw = rBody.substring(rBody.indexOf("[{")+2).split("}}},");
+	         populatePlayers(playersRaw, totalPlayers);
+	        
+	        //Get Team records for current year via GET standings/standard/currentYear (-1 year if current month is before July)
+	        request = new Request.Builder()
+	        		.url(hostURL+"standings/standard/"+seasonYr)
+	        		.get()
+	        		.addHeader("x-rapidapi-key", rAPIKey)
+	            	.addHeader("x-rapidapi-host", host)
+	            	.build();
+	        response = client.newCall(request).execute();
+	        rBody = response.body().string();
+	        totalTeams = teams.size();
+	        String[] standingsRaw = rBody.substring(rBody.indexOf("[{")).split("league");
+	        String standing = new String();
+	        int tempID = 0;
+	        for(int i = 0; i < standingsRaw.length; i++) {
+	        	standing = standingsRaw[i];
+	        	if(standing.indexOf("teamId") > -1) {
+	        		tempID = Integer.parseInt(standing.substring(standing.indexOf("teamId")+9, standing.indexOf("\",\"win")));
+	        		Team temp = getTeam(teams,tempID);
+	        		if(temp != null) {
+		        		temp.populateStats(standing.substring(standing.indexOf("\"win\"")));
+	        		}
+	        	}
+	        }
+	        for(Team t : teams)
+	        Collections.sort(t.roster,new Comparator<Player>(){
+	            public int compare(Player p1,Player p2){
+	            	int result = p1.getLastName().compareToIgnoreCase(p2.getLastName());
+	        		if(result != 0) {
+	        			return 0;
+	        		}
+	        		return p1.getFirstName().compareToIgnoreCase(p2.getFirstName());
+	            }});
+	        
+	        //Getting all the games of the season
+	       
+	        request = new Request.Builder()
+	        		.url(hostURL+"games/league/standard/"+seasonYr)
+	        		.get()
+	        		.addHeader("x-rapidapi-key", rAPIKey)
+	            	.addHeader("x-rapidapi-host", host)
+	            	.build();
+	        response = client.newCall(request).execute();
+	        rBody = response.body().string();
+	        totalGames = Integer.parseInt(rBody.substring(rBody.indexOf("\"results\":")+10, rBody.indexOf(",\"filters\"")));
+	        String[] gamesRaw = rBody.substring(rBody.lastIndexOf(":[{")).split("}}}");
+	        populateGames(gamesRaw,seasonGames,totalGames, seasonYr);
+	    	SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+					window.GUI.setVisible(true);
+	        
+	            }
+	        });
 	}
 	public static void populateGames(String[] gamesRaw, List<Game> seasonGames, int  total, int seasonYr) throws Exception {
 		String gameR = new String();
